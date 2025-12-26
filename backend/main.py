@@ -1,6 +1,10 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import random
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware, allow_origins = ['*'], allow_methods = ['*'], allow_headers = ['*']
+)
 random_number = random.randint(1, 10)
 @app.get("/guess/{number}")
 def guess_number(number: int):
