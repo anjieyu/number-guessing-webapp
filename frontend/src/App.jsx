@@ -38,8 +38,8 @@ function App() {
                 max = "10"
                 value = {guess()}
                 onInput = {(e) => setGuess(e.target.value)}
-                onKeyPress = {(e) => e.key === "enter" && handleGuess()}
-                placeholder = "enter 1-10"></input>
+                onKeyPress = {(e) => e.key === "Enter" && handleGuess()}
+                placeholder = "1-10"></input>
             <button
                 onClick = {handleGuess}> Guess </button>
             <button
