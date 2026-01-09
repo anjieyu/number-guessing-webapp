@@ -1,10 +1,10 @@
 import {render} from 'solid-js/web';
-import { NumberGame } from './layouts/NumberGame';
+import { Home } from './layouts/Home';
 function App() {
     return (
         <div>
-            <NumberGame/>
+            <Home/>
         </div>
     );
-}
+};
 render(() => <App />, document.getElementById('root'));

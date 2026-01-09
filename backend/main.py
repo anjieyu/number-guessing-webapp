@@ -5,6 +5,12 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware, allow_origins = ['*'], allow_methods = ['*'], allow_headers = ['*']
 )
+
+@app.get("/")
+def root():
+    return {"message": "webgames root"}
+
+# number guessing game API functions
 random_number = random.randint(1, 10)
 @app.get("/guess/{number}")
 def guess_number(number: int):
@@ -18,12 +24,9 @@ def guess_number(number: int):
         return {"result": "correct",
                 "message": "You got it!"}
     
-@app.get("/new-game")
+@app.get("/guess/new-game")
 def new_game():
     global random_number 
     random_number = random.randint(1, 10)
     return {"message": "new game started"}
 
-@app.get("/")
-def root():
-    return {"message": "number guessing game root"}

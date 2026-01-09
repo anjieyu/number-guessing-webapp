@@ -19,7 +19,7 @@ export function NumberGame() {
     };
     const handleNewGame = async() => {
         try {
-            const response = await fetch(`http://localhost:8000/new-game`);
+            const response = await fetch(`http://localhost:8000/guess/new-game`);
             const data = await response.json();
             setMessage(data.message);
             setGuess("");
@@ -45,4 +45,5 @@ export function NumberGame() {
                 onClick = {handleNewGame}> New Game </button>
         </div>
     );
-}
+};
+export default NumberGame;
