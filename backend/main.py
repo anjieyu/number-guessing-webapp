@@ -30,3 +30,14 @@ def new_game():
     random_number = random.randint(1, 10)
     return {"message": "new game started"}
 
+# Bulls and cows game API functions
+random_bull_number = random.randint(1111, 9999)
+@app.get("/bulls/{number}")
+def guess_bull_number(number: int):
+    pass
+
+@app.get("/bulls/new-game")
+def new_bull_game():
+    global random_bull_number
+    random_bull_number = random.randint(1111, 9999)
+    return {"message": "new game started"}
