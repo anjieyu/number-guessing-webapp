@@ -1,5 +1,5 @@
 import {createSignal} from 'solid-js';
-export function NumberGame() {
+export function NumberGame(props) {
     const [guess, setGuess] = createSignal("");
     const [message, setMessage] = createSignal("try to guess a random number from 1 to 10");
     const handleGuess = async () => {
@@ -43,6 +43,8 @@ export function NumberGame() {
                 onClick = {handleGuess}> Guess </button>
             <button
                 onClick = {handleNewGame}> New Game </button>
+            <button
+                onClick = {props.onBack}> Home </button>
         </div>
     );
 };
