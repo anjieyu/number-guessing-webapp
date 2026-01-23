@@ -34,7 +34,20 @@ def new_game():
 random_bull_number = random.randint(1111, 9999)
 @app.get("/bulls/{number}")
 def guess_bull_number(number: int):
-    pass
+    if (number == random_bull_number):
+        return {"result": "correct",
+                "message": "You got it!"}
+    digits = str(number)
+    bull_digits = str(random_bull_number)
+    bulls = 0
+    cows = 0
+    for i, c in enumerate(digits):
+        if c == bull_digits[i]:
+            bulls += 1
+        elif c in bull_digits:
+            cows += 1
+    return {"result": "incorrect",
+            "message": f"{bulls} bulls, {cows} cows"}
 
 @app.get("/bulls/new-game")
 def new_bull_game():
