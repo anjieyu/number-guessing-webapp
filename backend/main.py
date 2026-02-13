@@ -69,3 +69,11 @@ def new_bull_game():
     random_bull_number = random.randint(1111, 9999)
     bull_guesses.clear()
     return {"message": "new game started"}
+
+# Hang Man game API functions
+@app.get("/hangman/new-game")
+def new_hangman():
+    global word
+    word = "hangman"
+    return {"message": "new game started"}
+

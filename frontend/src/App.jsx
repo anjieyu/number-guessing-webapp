@@ -3,6 +3,7 @@ import { Home } from './layouts/Home';
 import {createSignal} from 'solid-js';
 import {NumberGame} from './layouts/NumberGame';
 import {BullGame} from './layouts/BullGame';
+import {HangMan} from './layouts/HangMan';
 
 function App() {
     const [currentPage, setCurrentPage] = createSignal('home');
@@ -11,6 +12,7 @@ function App() {
             {currentPage() === 'home' && <Home onSelectGame = {setCurrentPage}/>}
             {currentPage() === 'numberGame' && <NumberGame onBack = {() => setCurrentPage('home')}/>}
             {currentPage() === 'bullGame' && <BullGame onBack = {() => setCurrentPage('home')}/>}
+            {currentPage() === 'hangMan' && <HangMan onBack = {() => setCurrentPage('home')}/>}
         </div>
     );
 };
