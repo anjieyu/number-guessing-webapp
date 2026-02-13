@@ -71,9 +71,19 @@ def new_bull_game():
     return {"message": "new game started"}
 
 # Hang Man game API functions
+with open("words.txt", "r") as word_file:
+    words = word_file.read().split()
+    word = random.choice(words)
+
+@app.get("/hangman/{guess}")
+def guess_hangman(guess: str):
+    return
+
 @app.get("/hangman/new-game")
 def new_hangman():
     global word
-    word = "hangman"
+    with open("words.txt", "r") as word_file:
+        words = word_file.read().split()
+        word = random.choice(words)
     return {"message": "new game started"}
 
