@@ -42,11 +42,6 @@ def guess_bull_number(number: int):
                 "message": f"You got it! The number was {random_bull_number}",
                 "guesses": list(bull_guesses)}
     digits = str(number)
-    if len(bull_guesses) < 5:
-        bull_guesses.append(digits)
-    else:
-        bull_guesses.popleft()
-        bull_guesses.append(digits)
     bull_digits = str(random_bull_number)
     cow_digits = list(copy.deepcopy(bull_digits))
     bulls = 0
@@ -58,6 +53,12 @@ def guess_bull_number(number: int):
     for c in set(digits):
         if c in set(cow_digits):
             cows += 1
+    if len(bull_guesses) < 5:
+        bull_guesses.append(f"{digits}: {bulls} bulls, {cows} cows")
+    else:
+        bull_guesses.popleft()
+        bull_guesses.append(f"{digits}: {bulls} bulls, {cows} cows")
+
     return {"result": "incorrect",
             "message": f"Guess again! Your guess was {number}. \n You have {bulls} bulls, {cows} cows.",
             "guesses": list(bull_guesses)}
