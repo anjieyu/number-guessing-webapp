@@ -39,7 +39,8 @@ bull_guesses = deque()
 def guess_bull_number(number: int):
     if (number == random_bull_number):
         return {"result": "correct",
-                "message": f"You got it! The number was {random_bull_number}"}
+                "message": f"You got it! The number was {random_bull_number}",
+                "guesses": list(bull_guesses)}
     digits = str(number)
     if len(bull_guesses) < 5:
         bull_guesses.append(digits)
@@ -58,10 +59,12 @@ def guess_bull_number(number: int):
         if c in set(cow_digits):
             cows += 1
     return {"result": "incorrect",
-            "message": f"Guess again! Your guess was {number}. \n You have {bulls} bulls, {cows} cows. Previous guesses: {bull_guesses}"}
+            "message": f"Guess again! Your guess was {number}. \n You have {bulls} bulls, {cows} cows.",
+            "guesses": list(bull_guesses)}
 
 @app.get("/bulls/new-game")
 def new_bull_game():
-    global random_bull_number
+    global random_bull_number, bull_guesses
     random_bull_number = random.randint(1111, 9999)
+    bull_guesses.clear()
     return {"message": "new game started"}
