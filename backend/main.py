@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import random
 import copy
 from collections import deque
+import logging
+logger = logging.getLogger("uvicorn.error")
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware, allow_origins = ['*'], allow_methods = ['*'], allow_headers = ['*']
@@ -75,15 +77,28 @@ with open("words.txt", "r") as word_file:
     words = word_file.read().split()
     word = random.choice(words)
 
+guesses = set()
+max_attempts = 6
+current_attempts = 0
+
+def mask_word(word, guesses):
+    return "".join([c if c in guesses else "_" for c in word])
+
 @app.get("/hangman/{guess}")
 def guess_hangman(guess: str):
     return
 
 @app.get("/hangman/new-game")
 def new_hangman():
-    global word
+    global word, guesses, max_attempts, current_attempts
+    current_attempts = 0
+    guesses = set()
+    logger.debug("test")
     with open("words.txt", "r") as word_file:
         words = word_file.read().split()
         word = random.choice(words)
-    return {"message": "new game started"}
+        logger.debug(word)
+        return {"message": "new game started",
+                "word": mask_word(word, guesses),
+                "attempts": max_attempts - current_attempts}
 
