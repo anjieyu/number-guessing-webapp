@@ -7,10 +7,10 @@ export function HangMan(props) {
     const [guesses, setGuesses] = createSignal([]);
     const handleGuess = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/hangman/guess/${guess}`);
+            const response = await fetch(`http://localhost:8000/hangman/${guess()}`);
             const data = await response.json();
             setWord(data.word);
-            setGuess(data.guess);
+            setGuess("");
             setAttempts(data.attempts);
             setGuesses(data.guesses);
             setMessage(data.message);

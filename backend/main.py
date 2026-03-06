@@ -927,55 +927,60 @@ words = [
 ]
 
 # Hang Man game API functions
-# word = random.choice(words)
-word = "apple"
+word = random.choice(words)
 
 guesses = set()
+displayed_guesses = set()
 max_attempts = 6
 current_attempts = 0
 
 def mask_word(word, guesses):
-    return "".join([c if c in guesses else "_" for c in word])
+    return "".join([c if c in guesses else "_ " for c in word])
+
+@app.get("/hangman/new-game")
+def new_hangman():
+    global word, guesses, max_attempts, current_attempts, displayed_guesses
+    current_attempts = 0
+    guesses = set()
+    displayed_guesses = set()
+    logger.debug("test")
+    word = random.choice(words)
+    logger.debug(f"The secret word is: {word}")
+    return {"message": "new game started",
+            "word": mask_word(word, guesses),
+            "attempts": max_attempts - current_attempts}
 
 @app.get("/hangman/{guess}")
 def guess_hangman(guess: str):
+    global current_attempts
     if guess not in guesses:
         guesses.add(guess)
-        current_attempts += 1
+        if guess not in word:
+            current_attempts += 1
     mask = mask_word(word, guesses)
+    if guess not in set(word):
+        displayed_guesses.add(guess)
     if "_" not in mask:
         return {
             "message": "you win",
             "word": word,
             "attempts": max_attempts - current_attempts,
-            "guesses": list(guesses)
+            "guesses": list(displayed_guesses)
         }
-    elif (max_attempts - current_attempts) > 0:
+    elif current_attempts < max_attempts:
         return {
             "message": "keep guessing",
             "word": mask,
             "attempts": max_attempts - current_attempts,
-            "guesses": list(guesses)
+            "guesses": list(displayed_guesses)
         }
     else:
         return {
             "message": "you lose",
-            "word": mask,
-            "attempts": max_attempts - current_attempts,
-            "guesses": list(guesses)
+            "word": word,
+            "attempts": 0,
+            "guesses": list(displayed_guesses)
 
         }
 
-@app.get("/hangman/new-game")
-def new_hangman():
-    # global word, guesses, max_attempts, current_attempts
-    current_attempts = 0
-    guesses = set()
-    logger.debug("test")
-    # word = random.choice(words)
-    word = "apple"
-    logger.debug(f"The secret word is: {word}")
-    return {"message": "new game started",
-            "word": mask_word(word, guesses),
-            "attempts": max_attempts - current_attempts}
 
